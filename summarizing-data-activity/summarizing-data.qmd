@@ -11,6 +11,62 @@ execute:
   error: true
 ---
 
+```{r}
+#| label: setup
+#| include: false
+library(mosaic)
+library(ggformula)
+library(tidyverse)
+theme_set(theme_light())
+```
+
+
 ## Titanic Survivor Data
 
 
+```{r}
+#| label: add-label
+titanic <- read_csv("data/titanic.csv", show_col_types = FALSE)
+```
+
+
+```{r}
+#| label: look-at-data
+#| eval: false
+
+glimpse(titanic)
+View(titanic)
+```
+
+
+```{r}
+#| label: order-class-age
+titanic <- titanic |>
+  mutate(class = factor(class, levels = c("first",
+                                          "second",
+                                          "third")),
+         age = factor(age, levels = c("child",
+                                      "adult")))
+```
+
+
+```{r}
+#| label: survival-rate
+tally(~survived, data = titanic)
+```
+
+
+
+```{r}
+gf_bar(~survived, data = titanic)
+```
+
+
+
+s
+## Euro Cup Data
+
+```{r}
+#| label: add-label
+euro <- read_csv("data/euro-cup.csv", show_col_types = FALSE)
+```
