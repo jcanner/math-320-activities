@@ -22,22 +22,25 @@ theme_set(theme_light())
 
 
 ## Titanic Survivor Data
+The Titanic was a British passenger liner that sank on April 15, 1912, after striking an iceberg during its maiden voyage from Southampton to New York. More than 1,500 people died, making the disaster one of the deadliest maritime tragedies in history. Survival was influenced by factors such as gender, age, and passenger class, which makes the Titanic an important example for studying social patterns in data.
 
+First read in the data - note the file pathway:
 
 ```{r}
 #| label: add-label
-titanic <- read_csv("data/titanic.csv", show_col_types = FALSE)
+titanic <- read_csv("data/titanic.csv", 
+                    show_col_types = FALSE)
 ```
 
-
+Take a look at the data using one of these codes.  
 ```{r}
 #| label: look-at-data
 #| eval: false
-
 glimpse(titanic)
 View(titanic)
 ```
 
+Here is some code to help you make sure that levels appear in the appropriate order.
 
 ```{r}
 #| label: order-class-age
@@ -50,23 +53,178 @@ titanic <- titanic |>
 ```
 
 
+### Calculating Survival Rates
+Recall that we can calculate simple counts and make a simple barplot of those counts.
+
 ```{r}
-#| label: survival-rate
+#| label: survival-count
 tally(~survived, data = titanic)
 ```
 
-
+Add labels to each axis and a title.
 
 ```{r}
+#| label: survival-count-graph
 gf_bar(~survived, data = titanic)
 ```
 
 
+### Different Group Sizes?
 
-s
-## Euro Cup Data
+Counts are helpful, but when groups differ by size we might want to make comparisons using proportions or percentages.
+
+Write the code to calculate the group sizes for each categorical variable: `class`, `age`, and `sex`. 
+
+Be sure to change the `#| label:` from `add-label` to something more descriptive using-kabob-case.  
 
 ```{r}
 #| label: add-label
-euro <- read_csv("data/euro-cup.csv", show_col_types = FALSE)
+
+
 ```
+
+
+#### Compare the Survival Rates across Age
+We can calculate percentages (or proportions) of survival across levels.
+
+Here are the percentages for age groups of survival and code for a barplot that shows the conditional proportions.
+
+```{r}
+#| label: percent-age
+tally(~ survived | age, data = titanic, format = "percent")
+```
+
+
+```{r}
+#| label: percent-age-graph
+gf_percents(
+  ~survived | age,
+  data = titanic,
+  fill = ~survived,
+  xlab = "Survival status",
+  ylab = "Percent",
+  title = "Survival by Age Group",
+  show.legend = FALSE
+)
+
+```
+
+What do you notice about the survival rates compared between children and adults on the Titanic?
+
+>Insert Answer Here
+
+
+#### Compare the Survival Rates Across Gender
+
+Using the code structure for age groups, update the code (including labels) to compare survival rates across sex.
+
+```{r}
+#| label: percent-sex
+
+
+```
+
+
+```{r}
+#| label: percent-gender-sex
+
+
+```
+
+What do you notice about the survival rates compared between males and females on the Titanic?
+
+>Insert Answer Here
+
+
+#### Compare the Survival Rates Across Ticket Class
+
+Using the code structure for age groups, update the code (including labels) to compare survival rates across ticket class.
+
+```{r}
+#| label: percent-class
+
+
+```
+
+
+```{r}
+#| label: percent-class-graph
+
+
+```
+
+What do you notice about the survival rates compared between first (most expensive), second, and third class tickets on the Titanic?
+
+>Insert Answer Here
+
+
+
+#### Going Deeper in our Comparisons
+What about differences across sex and class - look at the graph below:
+
+```{r}
+#| label: compare-multiple groups
+gf_percents(
+  ~survived | sex + class,
+  data = titanic,
+  fill = ~survived,
+  xlab = "Survival status",
+  ylab = "Percent",
+  title = "Survival by Gender and Passenger Class",
+  show.legend = FALSE)
+```
+
+What do you notice about how class and sex interact to impact chance of survival on the titanic?
+
+>Insert Answer Here
+
+
+
+
+### Write a Summary
+What did you notice about your results. Write a short paragraph summarizing what you saw. If you know anything about the Titanic sinking, is there something that would explain the differences observed? Is there further analysis or comparisons you would like to do?
+
+
+
+
+
+
+## Euro Cup Data
+The UEFA European Championship, commonly called the Euro Cup, is an international soccer tournament in which national teams from Europe compete. In this activity, use player data from different cups to investigate how top speed varies across tournaments. Compare the distributions of player top speed by cup, and consider whether differences appear across playing positions such as defenders, midfielders, and forwards. Create appropriate visualizations, describe the main patterns, and support your conclusions with summary statistics. Be careful to distinguish between describing differences in the data and claiming that one tournament caused players to be faster.
+
+Read in the data and call is `euro`, be sure to update the label!
+
+```{r}
+#| label: add-label
+
+```
+
+
+### Have Players Become Faster?
+Using graphs and summary statistics, see if there is evidence that players have become faster (`top_speed`). 
+
+
+Add in code chunks using 
+
+- Windows: Control + Alt + I
+- Mac: Cmd + Option + I
+
+
+
+Write your summary here using evidence from your summary stats and graphs to support your argument.  
+
+>Insert Answer Here
+
+
+
+### What about position (if time allows)
+You can also look and see if these trends continue across positions. To pull out data for just one position you can use the `filter()` function.  
+
+```{r}
+#| label: filter-demo
+goalkeep <- euro |> 
+  filter(position == "Goalkeeper")
+```
+
+Now `goalkeep` contains all the variables but just for the goalkeeper position.  Update your codes above for just the goalkeepers, and then do the same for other positions.  
+
